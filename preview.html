@@ -81,6 +81,36 @@
               <div>
                 <label class="field-label" for="a">名前</label>
                 <input id="a" class="input" placeholder="入力してください" />
+                <p class="field-hint">表示される名前です</p>
+              </div>
+              <div>
+                <label class="field-label" for="b">メール（エラー）</label>
+                <input id="b" class="input" value="abc" aria-invalid="true" aria-describedby="b-err" />
+                <p class="field-error" id="b-err">形式が正しくありません</p>
+              </div>
+              <div>
+                <label class="field-label" for="c">無効</label>
+                <input id="c" class="input" value="編集できません" disabled />
+              </div>
+              <div>
+                <label class="field-label" for="d">選択</label>
+                <select id="d" class="select"><option>選択肢 1</option><option>選択肢 2</option></select>
+              </div>
+              <div>
+                <label class="field-label" for="e">メモ</label>
+                <textarea id="e" class="textarea" placeholder="複数行"></textarea>
+              </div>
+              <div class="row">
+                <label class="check"><input type="checkbox" class="checkbox" checked />チェック</label>
+                <label class="check"><input type="checkbox" class="checkbox" />未チェック</label>
+                <label class="check"><input type="checkbox" class="checkbox" id="ind" />途中</label>
+                <label class="check"><input type="checkbox" class="checkbox" aria-invalid="true" />エラー</label>
+                <label class="check"><input type="checkbox" class="checkbox" disabled checked />無効</label>
+              </div>
+              <div class="row">
+                <label class="check"><input type="radio" name="r" class="radio" checked />A</label>
+                <label class="check"><input type="radio" name="r" class="radio" />B</label>
+                <label class="check"><input type="radio" name="r" class="radio" disabled />無効</label>
               </div>
               <div class="row">
                 <button class="toggle" role="switch" aria-checked="false" aria-label="オフ"><span class="toggle-thumb"></span></button>
@@ -93,6 +123,22 @@
               </div>
               <span>キー: <kbd class="kbd">Ctrl</kbd> + <kbd class="kbd">K</kbd></span>
               <div class="row"><span class="badge">3</span><span class="badge">99+</span></div>
+            </div>
+          </section>
+
+          <section>
+            <h2>トースト・ツールチップ・アイコン</h2>
+            <div class="col" style="max-width: 440px">
+              <div class="toast" style="animation: none"><span class="toast-text">保存しました</span><button class="toast-action">元に戻す</button><button class="icon-btn" aria-label="閉じる">✕</button></div>
+              <div class="toast toast-error" style="animation: none"><span class="toast-text">送信できませんでした</span><button class="icon-btn" aria-label="閉じる">✕</button></div>
+              <div class="row" style="padding-top: 28px">
+                <button class="icon-btn" data-tooltip="コピー" aria-label="コピー">⧉</button>
+                <button class="icon-btn" data-tooltip="削除（下向き）" data-tooltip-pos="bottom" aria-label="削除">🗑</button>
+                <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg>
+                <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg>
+                <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg>
+                <span class="muted">14 / 16 / 20</span>
+              </div>
             </div>
           </section>
 
@@ -196,6 +242,7 @@
       const modal = document.getElementById('modal');
       document.getElementById('open-modal').onclick = () => (modal.hidden = false);
       modal.addEventListener('click', (e) => (e.target.matches('.modal-scrim,[data-close]')) && (modal.hidden = true));
+      document.getElementById('ind').indeterminate = true;
       setTheme('system');
     </script>
   </body>

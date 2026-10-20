@@ -42,6 +42,12 @@ Vite・webpack など、`@import` で node_modules を解決できるバンド�
 
 詳しくは [`DESIGN.md`](DESIGN.md)。
 
+## 決まりごと
+
+- ブレークポイントは **767px**（`@media (max-width: 767px)` がモバイル）。CSS 変数は `@media` の条件に使えないので、各アプリで定数として揃える。
+- アイコンは Lucide、線幅 2、大きさは 14 / 16 / 20（`.icon-sm` / `.icon-md` / `.icon-lg`）。
+- アイコンだけのボタンには `aria-label`。見える補足は `data-tooltip`。
+
 ## このリポジトリを変更するとき
 
 - 色は直書きせず、必ず `tokens.css` のトークンにする。ライトとダークの両方に値を入れる（`@media` 内と `:root[data-theme='dark']` の 2 か所）。

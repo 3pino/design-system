@@ -3,7 +3,7 @@
 3pino のアプリ共通のデザインシステムの説明です。もとは [disnans](https://github.com/3pino/disnans) の見た目で、機能やサーバーの話は含みません。
 **見た目の正は `src/`**（トークン + リセット + 共通部品のクラス）です。純 CSS で、フレームワークには依存しません。
 
-- アイコンは [Lucide](https://lucide.dev/)（線幅 2、丸い端。`stroke-linecap/linejoin: round`）
+- アイコンは [Lucide](https://lucide.dev/)（線幅 2、丸い端）。大きさは `--icon-sm` 14 / `--icon` 16 / `--icon-lg` 20 の 3 段階
 - 文言は日本語、`<html lang="ja">`
 - 見た目の確認用に `preview.html`（全部品の一覧。ライト／ダークの切り替え付き）がある
 
@@ -200,12 +200,14 @@ function hueOf(id: string): number {
 
 | 部品 | クラス | 見た目の要点 |
 | --- | --- | --- |
-| アイコン | `.icon` | `flex: none`（縮まない）。Lucide 24px 基準、使う場所で 14–20px |
+| アイコン | `.icon`（`.icon-sm` 14 / `.icon-md` 16 / `.icon-lg` 20） | `flex: none`（縮まない）。Lucide、線幅 2 固定。大きさは 3 段階だけ使う |
 | アイコンボタン | `.icon-btn`（`.active`） | 34px 角・`--radius-sm`・背景なし・`--text-muted`。ホバーで `--hover` 地 + `--text`。`.active` は `--accent` + `--accent-soft` 地。disabled は opacity .45 |
 | ボタン | `.btn`（`.primary` `.danger` `.ghost` `.btn-icon-only`） | 高さ 36px・横 14px・枠 1px `--border`・地 `--surface-2`・font-weight 500。`.primary` は `--accent` 地 + `--on-accent` 文字、`.danger` は `--danger` 地。ホバーは `brightness(1.06)`（通常ボタンは枠が `--text-muted` に）。`.ghost` は背景も枠もなく、ホバー・フォーカスで `--hover`、押下で `--surface-2`。disabled は opacity .5 |
-| 入力欄 | `.input` | 高さ 40px・`--bg` 地・枠 `--border`・`--radius-sm`・`outline: none`。フォーカスで枠 `--border-focus` + 地 `--field-focus-bg`（青くしない） |
+| 入力欄 | `.input` / `.textarea` / `.select` | 高さ 40px（textarea は最小 80px・縦にだけ伸びる）・`--bg` 地・枠 `--border`。フォーカスで枠 `--border-focus` + 地 `--field-focus-bg`（青くしない）。エラーは `aria-invalid="true"`（枠が `--danger`）、無効は `disabled`（opacity .5） |
+| 補足・エラー文 | `.field-hint` / `.field-error` | 入力欄の下の 12px。`--text-muted` / `--danger` |
+| チェック・ラジオ | `.checkbox` / `.radio` + `.check`（ラベル） | 18px。ON は `--accent` 地（チェックは `--on-accent`）。`indeterminate`・`aria-invalid`・`disabled` 対応。`<label class="check"><input type="checkbox" class="checkbox">名前</label>` |
 | 小見出し | `.field-label` | 入力欄の上に置く 12px/700 の `--text-muted` |
-| トグル | `.toggle`（`.toggle-on`） | 38×22・角丸 11px。OFF は `--border` 地、ON は `--accent` 地。つまみは 16px の `--bg` 色の丸で、ON で 16px 右へ（0.12s） |
+| トグル | `.toggle`（`.toggle-on`） | 38×22・角丸 11px。OFF は `--border` 地、ON は `--accent` 地。つまみは 16px の `--bg` 色の丸で、ON で 16px 右へ（`--dur-fast`） |
 | スライダー | `.slider` / `-input` / `-value` | トラック 4px（`--border`）、つまみ 16px の `--accent` 丸。値は 12px・等幅数字・右寄せ |
 | セグメント | `.segmented` / `-option`（`-selected`） | 地 `--surface-2` の枠、内側 4px。選択中の項目は `--bg` 地 + `--text`、他は `--text-muted`。高さ 32px・12px/600 |
 | タブバー | `.nav-bar` / `-item`（`-selected`） | 下タブ: 上線 1px、地 `--surface`、アイコン + 10px ラベルを等分。選択は `--accent`。`.nav-bar-side` で幅 76px の左縦並び（右線 1px） |
@@ -216,19 +218,19 @@ function hueOf(id: string): number {
 | 設定セクション | `.setting-section` | 上下 18px。前にセクションがあるときだけ上端に区切り線。見出し 12px/700/`--text-muted`/字間 0.06em。中身は 10px 間隔 |
 | 設定の行 | `.setting-row` | 左に名前 + 説明、右に操作。14px、間隔 12px。`.setting-row-button` で行全体が ghost ボタン |
 | 状態表示 | `.status-line`（`-muted` `-ok` `-accent` `-warn` `-error`） | アイコン + 14px/600 の 1 行。色は意味色 |
-| メニュー | `.menu` / `.menu-item`（`-danger`） | `--surface` 地・枠 1px・`--radius`・`--shadow`・padding 4px・min-width 200px。項目は padding 8×10・`--radius-sm`・間隔 10px、ホバー/押下で `--surface-2`。z-index 30（背後に透明な `.menu-backdrop` 29） |
+| メニュー | `.menu` / `.menu-item`（`-danger`） | `--surface` 地・枠 1px・`--radius`・`--shadow`・padding 4px・min-width 200px。項目は padding 8×10・`--radius-sm`・間隔 10px、ホバー/押下で `--surface-2`。`--z-menu`（背後に透明な `.menu-backdrop`） |
 | 補完候補 | `.suggest-list` / `-item`（`-selected`） | メニューと同じ面。選択中は `--accent-soft` 地。タイトル 600、詳細は 12px `--text-muted` で省略表示 |
-| モーダル | `.modal-scrim` / `.modal` | 幕は `--scrim`。本体は幅 `min(420px, 100vw-32px)`・padding 20px・角丸 14px・`--surface`・枠 1px・`--shadow`・中央配置。出現は 0.15s のフェード + わずかなせり上がり。ボタンは右寄せ・間隔 8px（`.modal-actions`）。z-index 80/81 |
-| トースト | `.toast` | 画面上部中央（幅 min(440px, 100vw-24px)）、`--surface`・枠・`--radius`・`--shadow`・14px。エラーは左に 3px の `--danger` 帯だけ。z-index 90 |
-| カード | `.message-card` | `--surface` 地・枠 1px・`--radius-sm`・padding 8×12。押せるものはホバーで `--border-hover`。使えないものは破線枠 |
+| モーダル | `.modal-scrim` / `.modal` | 幕は `--scrim`。本体は幅 `min(420px, 100vw-32px)`・padding 20px・角丸 14px・`--surface`・枠 1px・`--shadow`・中央配置。出現はフェード + わずかなせり上がり（`--dur`）。ボタンは右寄せ・間隔 8px（`.modal-actions`） |
+| トースト | `.toasts` > `.toast`（`-error` `-text` `-action`） | 画面上部中央（幅 min(440px, 100vw-24px)）、`--surface`・枠・`--shadow`・14px。エラーは左に 3px の `--danger` 帯だけ |
+| ツールチップ | `[data-tooltip]`（`data-tooltip-pos="bottom"`） | アイコンだけのボタンの補足。ホバー（0.4s 後）かキーボードフォーカスで出る。読み上げは `aria-label`。親の `overflow` で切れるので端は下向きに |
 | スクロール領域 | `.scroll` | `overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent` |
 | 回転 | `.spin` | 0.9s linear 無限 |
 
-z-index の目安: メニュー 29–30 / パネル（モバイル全面）30 / モーダル 80–81 / トースト 90。
+重なり順は `--z-dropdown` 20 / `--z-menu` 30 / `--z-modal` 80 / `--z-toast` 90 / `--z-tooltip` 100（`tokens.css`）。
 
 ## レイアウト
 
-- 幅の境目は **767px**（`max-width: 767px` がモバイル）。
+- 幅の境目は **767px**（`@media (max-width: 767px)` がモバイル）。CSS 変数は `@media` の条件に使えないので、各アプリで定数として揃える。
 - **広い画面**: 左にナビ（76px、縦並び）| メイン（`minmax(0,1fr)`）| 右パネル（任意。`minmax(320px, 420px)`、左に 1px の枠）の 3 列グリッド。
 - **モバイル**: 縦積み。ナビは下のタブバー、パネルは全画面（`position: fixed; inset: 0`、右から 0.18s でスライドイン）。
 - 変数: `--nav-side-w: 76px`、`--panel-w: 420px`。
@@ -239,6 +241,7 @@ z-index の目安: メニュー 29–30 / パネル（モバイル全面）30 / 
 
 （チャット以外のアプリでは不要。参考）
 
+- カード（`.message-card`。本体のコンポーネント内のスタイル。共有には含めない）: `--surface` 地・枠 1px・`--radius-sm`・padding 8×12。押せるものはホバーで `--border-hover`、使えないものは破線枠。
 - 入力欄（コンポーザー）: 外側 padding `0 16px 14px`。内側は `--surface` 地・枠 1px・角丸 14px・padding 4×6 の横並び（＋ボタン / 入力 / 送信）。
 - 発言: 左右 padding 16px、前の発言との間隔 6px（同じ人の連続は 0）。アバター 36px。
 - 吹き出し: 角丸 16px、padding 7×12。自分は `color-mix(in oklch, var(--accent) 16%, var(--surface))` 地で右寄せ、他人は `--surface` 系。
@@ -250,10 +253,10 @@ z-index の目安: メニュー 29–30 / パネル（モバイル全面）30 / 
 
 ## モーション・アクセシビリティ・タッチ
 
-- 動きは短く控えめ: 0.12s（トグル）・0.15s（モーダル）・0.18s（スライド・トースト）。イージングは `ease-out`。
+- 動きは短く控えめ: `--dur-fast` 0.12s（色・トグル）/ `--dur` 0.15s（モーダル）/ `--dur-slow` 0.18s（スライド・トースト）。イージングは `--ease`（`ease-out`）。
 - `prefers-reduced-motion: reduce` では全アニメーション・トランジションを 0.01ms にする（`base.css` に入っている）。
 - ホバー表現は `@media (hover: hover)` の中だけ（タッチ操作のデバイスで押したあと明るいまま残るのを防ぐ）。`.menu-item`・`.icon-btn` が該当。
-- アイコンだけのボタンには必ず `aria-label`。飾りのアイコンは `aria-hidden`。
+- アイコンだけのボタンには必ず `aria-label`（見える補足は `data-tooltip`）。飾りのアイコンは `aria-hidden`。
 - キーボードフォーカスは `:focus-visible` の 2px `--ring` 輪郭。
 - 色だけに頼らない（状態はアイコン・文言・形も併用）。
 - タッチ: ピンチ拡大を止める `touch-action: pan-x pan-y`、ボタン類のテキスト選択・長押しコールアウトを止める。

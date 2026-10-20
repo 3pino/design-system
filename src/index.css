@@ -1,4 +1,3 @@
-/* すべてまとめて読み込む入り口（tokens → base → components の順） */
 @import './tokens.css';
 @import './base.css';
 @import './components.css';
