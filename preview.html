@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <title>design preview</title>
+    <link rel="stylesheet" href="src/index.css" />
+    <style>
+      /* このページだけの整形（デザインシステムの一部ではない） */
+      .pv { max-width: 760px; margin: 0 auto; padding: var(--space-7) var(--space-7) 64px; }
+      .pv h1 { font-size: var(--fs-xl); margin: 0; }
+      .pv h2 { margin: 0 0 var(--space-6); font-size: var(--fs-sm); letter-spacing: 0.06em; color: var(--text-muted); }
+      .pv section { padding: var(--space-7) 0; border-top: 1px solid var(--border); }
+      .pv .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); }
+      .pv .col { display: flex; flex-direction: column; gap: var(--space-4); }
+      .pv .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-4); }
+      .pv .sw { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; font-size: var(--fs-sm); }
+      .pv .sw i { display: block; height: 36px; }
+      .pv .sw span { display: block; padding: var(--space-2) var(--space-4); font-family: var(--mono); }
+      .pv .top { display: flex; justify-content: space-between; align-items: center; gap: var(--space-6); padding-bottom: var(--space-7); }
+      .pv .frame { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+      .pv .menu, .pv .suggest-list { position: static; width: 240px; }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="scroll" style="height: 100%">
+        <main class="pv">
+          <div class="top">
+            <h1>design preview</h1>
+            <div class="segmented" role="radiogroup" aria-label="テーマ" id="theme" style="width: 240px">
+              <button class="segmented-option" role="radio" data-v="system">システム</button>
+              <button class="segmented-option" role="radio" data-v="light">ライト</button>
+              <button class="segmented-option" role="radio" data-v="dark">ダーク</button>
+            </div>
+          </div>
+
+          <section>
+            <h2>カラー</h2>
+            <div class="swatches" id="swatches"></div>
+          </section>
+
+          <section>
+            <h2>文字（--fs-*、--fw-*）</h2>
+            <div class="col">
+              <div style="font-size: var(--fs-2xl)">2xl 24 — あいうえお Aa 漢字</div>
+              <div style="font-size: var(--fs-xl)">xl 20 — あいうえお Aa 漢字</div>
+              <div style="font-size: var(--fs-lg)">lg 16 — あいうえお Aa 漢字</div>
+              <div style="font-size: var(--fs-body)">body 15 — 本文。あいうえお Aa 漢字 0123456789</div>
+              <div style="font-size: var(--fs-base)">base 14 — あいうえお Aa 漢字</div>
+              <div style="font-size: var(--fs-sm)" class="muted">sm 12 — 補足・説明文・小見出し</div>
+              <div style="font-size: var(--fs-xs)" class="muted">xs 10 — バッジ・ナビのラベル</div>
+              <div style="font-family: var(--serif)">serif — あいうえお Aa 漢字</div>
+              <div style="font-family: var(--mono)">mono — const x = 42; // コード</div>
+              <div class="row">
+                <span style="font-weight: var(--fw-medium)">medium 500</span>
+                <span style="font-weight: var(--fw-semibold)">semibold 600</span>
+                <span style="font-weight: var(--fw-bold)">bold 700</span>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>ボタン</h2>
+            <div class="row">
+              <button class="btn">通常</button>
+              <button class="btn primary">主</button>
+              <button class="btn danger">危険</button>
+              <button class="btn ghost">ghost</button>
+              <button class="btn" disabled>無効</button>
+              <button class="btn btn-icon-only" aria-label="追加">＋</button>
+              <button class="icon-btn" aria-label="閉じる">✕</button>
+              <button class="icon-btn active" aria-label="有効">★</button>
+            </div>
+          </section>
+
+          <section>
+            <h2>入力</h2>
+            <div class="col" style="max-width: 360px">
+              <div>
+                <label class="field-label" for="a">名前</label>
+                <input id="a" class="input" placeholder="入力してください" />
+              </div>
+              <div class="row">
+                <button class="toggle" role="switch" aria-checked="false" aria-label="オフ"><span class="toggle-thumb"></span></button>
+                <button class="toggle toggle-on" role="switch" aria-checked="true" aria-label="オン"><span class="toggle-thumb"></span></button>
+                <button class="toggle" role="switch" disabled aria-label="無効"><span class="toggle-thumb"></span></button>
+              </div>
+              <div class="slider">
+                <input type="range" class="slider-input" min="0" max="100" value="40" aria-label="音量" />
+                <span class="slider-value">40%</span>
+              </div>
+              <span>キー: <kbd class="kbd">Ctrl</kbd> + <kbd class="kbd">K</kbd></span>
+              <div class="row"><span class="badge">3</span><span class="badge">99+</span></div>
+            </div>
+          </section>
+
+          <section>
+            <h2>設定（section / row / status-line）</h2>
+            <div class="frame" style="padding: var(--space-6) var(--space-7)">
+              <div class="setting-section">
+                <h3 class="setting-section-title">通知</h3>
+                <div class="setting-row">
+                  <div class="setting-row-info">
+                    <div class="setting-row-name">デスクトップ通知</div>
+                    <div class="setting-row-description">新しいメッセージが届いたとき</div>
+                  </div>
+                  <div class="setting-row-control">
+                    <button class="toggle toggle-on" role="switch" aria-checked="true" aria-label="通知"><span class="toggle-thumb"></span></button>
+                  </div>
+                </div>
+              </div>
+              <div class="setting-section">
+                <hr class="divider setting-section-divider" />
+                <h3 class="setting-section-title">状態</h3>
+                <p class="status-line status-line-ok">最新です</p>
+                <p class="status-line status-line-accent">確認中…</p>
+                <p class="status-line status-line-warn">注意が必要です</p>
+                <p class="status-line status-line-error">更新できませんでした</p>
+                <p class="status-line status-line-muted">未確認</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>メニュー・補完候補</h2>
+            <div class="row" style="align-items: flex-start">
+              <div class="menu" role="menu">
+                <button class="menu-item" role="menuitem">コピー</button>
+                <button class="menu-item" role="menuitem">編集</button>
+                <button class="menu-item menu-item-danger" role="menuitem">削除</button>
+              </div>
+              <ul class="suggest-list" role="listbox" style="width: 260px">
+                <li><button class="suggest-list-item suggest-list-item-selected"><span class="suggest-list-item-title">たろう</span><span class="suggest-list-item-detail">@taro</span></button></li>
+                <li><button class="suggest-list-item"><span class="suggest-list-item-title">はなこ</span><span class="suggest-list-item-detail">@hanako</span></button></li>
+              </ul>
+            </div>
+          </section>
+
+          <section>
+            <h2>タブバー（下 / 横）・モーダル</h2>
+            <div class="row" style="align-items: stretch">
+              <div class="frame" style="flex: 1; min-width: 280px">
+                <nav class="nav-bar">
+                  <button class="nav-bar-item nav-bar-item-selected"><span class="nav-bar-item-icon">●<span class="badge nav-bar-item-badge">2</span></span><span class="nav-bar-item-label">チャット</span></button>
+                  <button class="nav-bar-item"><span class="nav-bar-item-icon">○<span class="nav-bar-item-alert"></span></span><span class="nav-bar-item-label">通話</span></button>
+                  <button class="nav-bar-item"><span class="nav-bar-item-icon">○</span><span class="nav-bar-item-label">設定</span></button>
+                </nav>
+              </div>
+              <div class="frame">
+                <nav class="nav-bar nav-bar-side" style="--nav-side-w: 76px; height: 100%">
+                  <button class="nav-bar-item nav-bar-item-selected"><span class="nav-bar-item-icon">●</span><span class="nav-bar-item-label">チャット</span></button>
+                  <button class="nav-bar-item"><span class="nav-bar-item-icon">○</span><span class="nav-bar-item-label">設定</span></button>
+                </nav>
+              </div>
+            </div>
+            <p><button class="btn" id="open-modal">モーダルを開く</button></p>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div id="modal" hidden>
+      <div class="modal-scrim"></div>
+      <div class="modal" role="dialog" aria-label="確認">
+        <h2 class="modal-title">削除しますか？</h2>
+        <p class="muted">この操作は取り消せません。</p>
+        <div class="modal-actions">
+          <button class="btn ghost" data-close>キャンセル</button>
+          <button class="btn danger" data-close>削除</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const root = document.documentElement;
+      const seg = document.getElementById('theme');
+      function setTheme(v) {
+        if (v === 'system') root.removeAttribute('data-theme');
+        else root.setAttribute('data-theme', v);
+        for (const b of seg.children) {
+          const on = b.dataset.v === v;
+          b.classList.toggle('segmented-option-selected', on);
+          b.setAttribute('aria-checked', String(on));
+        }
+        requestAnimationFrame(swatches);
+      }
+      seg.addEventListener('click', (e) => e.target.dataset.v && setTheme(e.target.dataset.v));
+      function swatches() {
+        const names = ['bg', 'surface', 'surface-2', 'border', 'border-hover', 'text', 'text-muted', 'accent', 'mention', 'danger', 'success', 'warning', 'accent-soft', 'mention-soft', 'danger-soft', 'hover'];
+        document.getElementById('swatches').innerHTML = names
+          .map((n) => `<div class="sw"><i style="background: var(--${n})"></i><span>--${n}</span></div>`)
+          .join('');
+      }
+      const modal = document.getElementById('modal');
+      document.getElementById('open-modal').onclick = () => (modal.hidden = false);
+      modal.addEventListener('click', (e) => (e.target.matches('.modal-scrim,[data-close]')) && (modal.hidden = true));
+      setTheme('system');
+    </script>
+  </body>
+</html>

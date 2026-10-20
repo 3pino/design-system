@@ -1,0 +1,21 @@
+{
+  "name": "@3pino/design",
+  "version": "0.1.0",
+  "description": "3pino のアプリ共通のデザインシステム（CSS トークン・ベース・部品）",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "style": "src/index.css",
+  "exports": {
+    ".": "./src/index.css",
+    "./index.css": "./src/index.css",
+    "./tokens.css": "./src/tokens.css",
+    "./base.css": "./src/base.css",
+    "./components.css": "./src/components.css",
+    "./package.json": "./package.json"
+  },
+  "files": ["src", "preview.html", "DESIGN.md"],
+  "scripts": {
+    "preview": "python3 -m http.server 5180 --directory ."
+  }
+}
