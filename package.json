@@ -1,9 +1,8 @@
 {
   "name": "@3pino/design-system",
-  "version": "0.1.0",
+  "version": "0.4.1",
   "description": "3pino のアプリ共通のデザインシステム（CSS トークン・ベース・部品）",
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "MIT",
   "type": "module",
   "style": "src/index.css",
   "exports": {

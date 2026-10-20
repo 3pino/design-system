@@ -7,7 +7,7 @@
 | `src/tokens.css` | 色（ライト／ダーク）・文字サイズ・余白・角丸・影のトークン |
 | `src/base.css` | リセット、`body`、スクロール・タッチの方針 |
 | `src/components.css` | `.btn` `.toggle` `.menu` `.modal` などの部品 |
-| `src/avatar.css` | アバター（任意。`@3pino/design-system/avatar.css` を別に読み込む） |
+| `src/avatar.css` | アバター（optional） |
 | `src/index.css` | 上の 3 つをこの順に読み込む |
 | `preview.html` | 全部品の一覧（見た目の確認用） |
 | `DESIGN.md` | 方針・トークン・部品の説明 |
@@ -18,7 +18,7 @@
 
 ```sh
 # GitHub から。tag指定すべき。
-npm install github:3pino/design-system#v0.4.0
+npm install github:3pino/design-system#v0.4.1
 ```
 
 ### 2. 読み込む
