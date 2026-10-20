@@ -1,28 +1,44 @@
-/* カラートークン。中立色は oklch(L 0.015 248) で、明度だけを変える */
+/* カラートークン。中立色は oklch(L var(--chroma) var(--hue)) で、明度だけを変える。
+   アプリの色味は、:root で --hue（と --chroma・--hue-*）を上書きして変える */
 :root {
-  color-scheme: light;
-  --bg: oklch(0.97 0.015 248);
-  --surface: oklch(0.94 0.015 248);
-  --surface-2: oklch(0.9 0.015 248);
-  --border: oklch(0.84 0.015 248);
-  /* 入力欄（カード・input・textarea）にフォーカスしたとき。青くせず、枠と背景を少し明るくする */
-  --border-focus: oklch(0.92 0.012 248);
-  --field-focus-bg: oklch(0.97 0.012 248);
-  /* ホバーで枠を少し濃く（明るい地では、明るくすると見えなくなるので濃くする） */
-  --border-hover: oklch(0.76 0.015 248);
-  /* キーボードのフォーカスの輪郭（青くしない） */
-  --ring: oklch(0.45 0.015 248);
-  --text-muted: oklch(0.48 0.015 248);
-  --text: oklch(0.22 0.015 248);
+  /* パレット（ライト・ダーク共通） */
+  --hue: 248; /* 中立色とアクセントの色相 */
+  --chroma: 0.015; /* 中立色の彩度 */
+  --hue-accent: var(--hue);
+  --hue-mention: 75;
+  --hue-danger: 25;
+  --hue-success: 155;
+  --hue-warning: 85;
 
-  --accent: oklch(0.45 0.11 248);
-  --mention: oklch(0.45 0.09 75);
-  --danger: oklch(0.45 0.15 25);
-  --success: oklch(0.45 0.1 155);
-  --warning: oklch(0.45 0.09 85);
+  color-scheme: light;
+  --bg: oklch(0.97 var(--chroma) var(--hue));
+  --surface: oklch(0.94 var(--chroma) var(--hue));
+  --surface-2: oklch(0.9 var(--chroma) var(--hue));
+  --border: oklch(0.84 var(--chroma) var(--hue));
+  /* 入力欄（カード・input・textarea）にフォーカスしたとき。青くせず、枠と背景を少し明るくする */
+  --border-focus: oklch(0.92 var(--chroma) var(--hue));
+  --field-focus-bg: oklch(0.97 var(--chroma) var(--hue));
+  /* ホバーで枠を少し濃く（明るい地では、明るくすると見えなくなるので濃くする） */
+  --border-hover: oklch(0.76 var(--chroma) var(--hue));
+  /* キーボードのフォーカスの輪郭（青くしない） */
+  --ring: oklch(0.45 var(--chroma) var(--hue));
+  --text-muted: oklch(0.48 var(--chroma) var(--hue));
+  --text: oklch(0.22 var(--chroma) var(--hue));
+
+  --accent: oklch(0.45 var(--chroma-accent) var(--hue-accent));
+  --mention: oklch(0.45 var(--chroma-mention) var(--hue-mention));
+  --danger: oklch(0.45 var(--chroma-danger) var(--hue-danger));
+  --success: oklch(0.45 var(--chroma-success) var(--hue-success));
+  --warning: oklch(0.45 var(--chroma-warning) var(--hue-warning));
+  --chroma-accent: 0.11;
+  --chroma-mention: 0.09;
+  --chroma-danger: 0.15;
+  --chroma-success: 0.1;
+  --chroma-warning: 0.09;
 
   --avatar-l: 0.45;
-  --shadow: 0 8px 28px oklch(0.22 0.015 248 / 0.16), 0 1px 3px oklch(0.22 0.015 248 / 0.1);
+  --avatar-c: 0.08;
+  --shadow: 0 8px 28px oklch(0.22 var(--chroma) var(--hue) / 0.16), 0 1px 3px oklch(0.22 var(--chroma) var(--hue) / 0.1);
 
   /* 派生 */
   --on-accent: var(--bg);
@@ -32,11 +48,11 @@
   --hover: color-mix(in oklch, var(--surface-2) 60%, transparent);
 
   /* 幕・重ねる面（ライト・ダーク共通。暗い幕の上に置く文字は --on-scrim） */
-  --scrim: oklch(0.08 0.01 248 / 0.5); /* モーダル・ボトムシートの背後 */
-  --scrim-strong: oklch(0.1 0.01 248 / 0.92); /* 画像ビューアの背後 */
-  --on-scrim: oklch(0.93 0.015 248);
+  --scrim: oklch(0.08 var(--chroma) var(--hue) / 0.5); /* モーダル・ボトムシートの背後 */
+  --scrim-strong: oklch(0.1 var(--chroma) var(--hue) / 0.92); /* 画像ビューアの背後 */
+  --on-scrim: oklch(0.93 var(--chroma) var(--hue));
   --on-scrim-soft: oklch(1 0 0 / 0.1); /* 幕の上のボタンの背景 */
-  --shadow-sm: 0 1px 2px oklch(0.08 0.01 248 / 0.3); /* トグル・スライダーのつまみ */
+  --shadow-sm: 0 1px 2px oklch(0.08 var(--chroma) var(--hue) / 0.3); /* トグル・スライダーのつまみ */
   --shadow-media: 0 10px 40px oklch(0 0 0 / 0.5); /* 画像ビューアの画像 */
   --mark: rgba(250, 204, 21, 0.35); /* 本文中の ==ハイライト== */
 
@@ -60,11 +76,12 @@
   --z-toast: 90;
   --z-tooltip: 100;
 
+  /* 無効な項目の文字の装飾。取り消し線にしたいアプリは line-through にする */
+  --disabled-decoration: none;
+
   /* 動き */
   --ease: ease-out;
-  --dur-fast: 0.12s; /* 色・つまみ */
-  --dur: 0.15s; /* モーダル */
-  --dur-slow: 0.18s; /* トースト・スライド */
+  --dur: 0.15s;
 
   /* 文字サイズ */
   --fs-xs: 10px; /* バッジ・ナビのラベル */
@@ -103,47 +120,61 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --bg: oklch(0.17 0.015 248);
-    --surface: oklch(0.21 0.015 248);
-    --surface-2: oklch(0.26 0.015 248);
-    --border: oklch(0.32 0.015 248);
-    --border-focus: oklch(0.43 0.015 248);
-    --field-focus-bg: oklch(0.245 0.015 248);
-    --border-hover: oklch(0.44 0.015 248);
-    --ring: oklch(0.84 0.015 248);
-    --text-muted: oklch(0.7 0.015 248);
-    --text: oklch(0.93 0.015 248);
+    --bg: oklch(0.17 var(--chroma) var(--hue));
+    --surface: oklch(0.21 var(--chroma) var(--hue));
+    --surface-2: oklch(0.26 var(--chroma) var(--hue));
+    --border: oklch(0.32 var(--chroma) var(--hue));
+    --border-focus: oklch(0.43 var(--chroma) var(--hue));
+    --field-focus-bg: oklch(0.245 var(--chroma) var(--hue));
+    --border-hover: oklch(0.44 var(--chroma) var(--hue));
+    --ring: oklch(0.84 var(--chroma) var(--hue));
+    --text-muted: oklch(0.7 var(--chroma) var(--hue));
+    --text: oklch(0.93 var(--chroma) var(--hue));
 
-    --accent: oklch(0.74 0.13 248);
-    --mention: oklch(0.74 0.12 75);
-    --danger: oklch(0.74 0.15 25);
-    --success: oklch(0.74 0.12 155);
-    --warning: oklch(0.74 0.13 85);
+    --accent: oklch(0.74 var(--chroma-accent) var(--hue-accent));
+    --mention: oklch(0.74 var(--chroma-mention) var(--hue-mention));
+    --danger: oklch(0.74 var(--chroma-danger) var(--hue-danger));
+    --success: oklch(0.74 var(--chroma-success) var(--hue-success));
+    --warning: oklch(0.74 var(--chroma-warning) var(--hue-warning));
+    --chroma-accent: 0.13;
+    --chroma-mention: 0.12;
+    --chroma-danger: 0.15;
+    --chroma-success: 0.12;
+    --chroma-warning: 0.13;
 
     --avatar-l: 0.74;
-    --shadow: 0 10px 32px oklch(0.05 0.01 248 / 0.6), 0 1px 3px oklch(0.05 0.01 248 / 0.45);
+
+    --avatar-c: 0.08;
+    --shadow: 0 10px 32px oklch(0.05 var(--chroma) var(--hue) / 0.6), 0 1px 3px oklch(0.05 var(--chroma) var(--hue) / 0.45);
   }
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: oklch(0.17 0.015 248);
-  --surface: oklch(0.21 0.015 248);
-  --surface-2: oklch(0.26 0.015 248);
-  --border: oklch(0.32 0.015 248);
-  --border-focus: oklch(0.43 0.015 248);
-  --field-focus-bg: oklch(0.245 0.015 248);
-  --border-hover: oklch(0.44 0.015 248);
-  --ring: oklch(0.84 0.015 248);
-  --text-muted: oklch(0.7 0.015 248);
-  --text: oklch(0.93 0.015 248);
+  --bg: oklch(0.17 var(--chroma) var(--hue));
+  --surface: oklch(0.21 var(--chroma) var(--hue));
+  --surface-2: oklch(0.26 var(--chroma) var(--hue));
+  --border: oklch(0.32 var(--chroma) var(--hue));
+  --border-focus: oklch(0.43 var(--chroma) var(--hue));
+  --field-focus-bg: oklch(0.245 var(--chroma) var(--hue));
+  --border-hover: oklch(0.44 var(--chroma) var(--hue));
+  --ring: oklch(0.84 var(--chroma) var(--hue));
+  --text-muted: oklch(0.7 var(--chroma) var(--hue));
+  --text: oklch(0.93 var(--chroma) var(--hue));
 
-  --accent: oklch(0.74 0.13 248);
-  --mention: oklch(0.74 0.12 75);
-  --danger: oklch(0.74 0.15 25);
-  --success: oklch(0.74 0.12 155);
-  --warning: oklch(0.74 0.13 85);
+  --accent: oklch(0.74 var(--chroma-accent) var(--hue-accent));
+  --mention: oklch(0.74 var(--chroma-mention) var(--hue-mention));
+  --danger: oklch(0.74 var(--chroma-danger) var(--hue-danger));
+  --success: oklch(0.74 var(--chroma-success) var(--hue-success));
+  --warning: oklch(0.74 var(--chroma-warning) var(--hue-warning));
+  --chroma-accent: 0.13;
+  --chroma-mention: 0.12;
+  --chroma-danger: 0.15;
+  --chroma-success: 0.12;
+  --chroma-warning: 0.13;
 
   --avatar-l: 0.74;
-  --shadow: 0 10px 32px oklch(0.05 0.01 248 / 0.6), 0 1px 3px oklch(0.05 0.01 248 / 0.45);
+
+  --avatar-c: 0.08;
+  --shadow: 0 10px 32px oklch(0.05 var(--chroma) var(--hue) / 0.6), 0 1px 3px oklch(0.05 var(--chroma) var(--hue) / 0.45);
 }

@@ -12,9 +12,14 @@
     "./tokens.css": "./src/tokens.css",
     "./base.css": "./src/base.css",
     "./components.css": "./src/components.css",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./avatar.css": "./src/avatar.css"
   },
-  "files": ["src", "preview.html", "DESIGN.md"],
+  "files": [
+    "src",
+    "preview.html",
+    "DESIGN.md"
+  ],
   "scripts": {
     "preview": "python3 -m http.server 5180 --directory ."
   }

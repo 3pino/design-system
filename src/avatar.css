@@ -1,0 +1,16 @@
+/* アバター（任意。index.css には含まない）。画像は .avatar、画像がないときは .avatar-initials。
+   <span class="avatar avatar-initials" style="--h: 210; width: 36px; height: 36px; font-size: 15px">山</span>
+   --h（色相 0–360）は、ID などから各アプリが決める（ハッシュは CSS では書けない）。 */
+.avatar {
+  flex: none;
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.avatar.avatar-initials {
+  display: grid;
+  place-items: center;
+  background: oklch(var(--avatar-l) var(--avatar-c) var(--h, var(--hue)));
+  color: var(--bg);
+  font-weight: var(--fw-bold);
+}

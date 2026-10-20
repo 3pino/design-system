@@ -1,7 +1,6 @@
 # デザインガイド
 
-3pino のアプリ共通のデザインシステムの説明です。もとは [disnans](https://github.com/3pino/disnans) の見た目で、機能やサーバーの話は含みません。
-**見た目の正は `src/`**（トークン + リセット + 共通部品のクラス）です。純 CSS で、フレームワークには依存しません。
+3pino のアプリ共通のデザインシステムの説明です。
 
 - アイコンは [Lucide](https://lucide.dev/)（線幅 2、丸い端）。大きさは `--icon-sm` 14 / `--icon` 16 / `--icon-lg` 20 の 3 段階
 - 文言は日本語、`<html lang="ja">`
@@ -17,20 +16,16 @@
 6. [ベース設定（リセット）](#ベース設定リセット)
 7. [部品カタログ](#部品カタログ)
 8. [レイアウト](#レイアウト)
-9. [チャット固有の見た目](#チャット固有の見た目)
-10. [モーション・アクセシビリティ・タッチ](#モーションアクセシビリティタッチ)
-11. [使うときのチェックリスト](#使うときのチェックリスト)
+9. [モーション・アクセシビリティ・タッチ](#モーションアクセシビリティタッチ)
+10. [使うときのチェックリスト](#使うときのチェックリスト)
 
 ---
 
 ## デザインの方針
 
-- **落ち着いた単色の青灰色。** 中立色はすべて `oklch(L 0.015 248)`（色相 248・彩度 0.015 の固定）で、**明度 L だけを変える**。
-- **色は意味のあるものだけ。** アクセント（青）・メンション（黄土）・危険（赤）・成功（緑）・警告（黄）の 5 色のみ。
-- **「青く光らせない」。** フォーカスは枠と背景を少し明るくするだけ、キーボードの輪郭線も中立色。アクセントは選択中・主ボタン・トグル ON など「状態」に使う。
-- **カードで囲わない。** 設定は区切り線 + 小見出しだけ。余計な枠・影を使わず、影はポップアップ（メニュー・モーダル・トースト）だけ。
-- **ライト／ダーク両対応。** どちらも同じトークン名で、値だけ入れ替える。
-- 半透明の色は `color-mix(in oklch, …)` で派生させる（色を増やさない）。
+- 色は、アクセント（青）・メンション（茶）・危険（赤）・成功（緑）・警告（黄）の 5 色のみ。
+- ライト／ダーク両対応。
+- 半透明の色は `color-mix(in oklch, …)` で派生させる。
 
 ## 使い方
 
@@ -53,9 +48,9 @@
    **アプリごとの違いは、読み込んだあとにトークンを上書きして出す**（共有の CSS は編集しない）:
    ```css
    @import '@3pino/design-system';
-   :root { --accent: oklch(0.45 0.11 150); }
+   :root { --hue: 150; }   /* 色味を変える（ライト・ダーク両方に効く） */
    ```
-   ダークの値は `:root[data-theme='dark']`（と `@media` 内の `:root:not([data-theme='light'])`）のほうが詳細度が高いので、**色を上書きするときはダーク側も同じセレクタで上書きする**（`color-scheme` ごとに値が違うため）。色以外（文字サイズ・余白・角丸・フォント）は `:root` だけでよい。
+   色トークン（`--accent` など）そのものを上書きするときは、ダーク用のセレクタ（`:root[data-theme='dark']` と `@media` 内の `:root:not([data-theme='light'])`）のほうが詳細度が高いので、ダーク側も同じセレクタで上書きする。色以外（文字サイズ・余白・角丸・フォント）は `:root` だけでよい。
 3. `<meta name="color-scheme" content="light dark" />` と `viewport` を入れる:
    ```html
    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -63,83 +58,72 @@
    ```
    （disnans ではモバイルのピンチ拡大を止めるため `maximum-scale=1, user-scalable=no, interactive-widget=resizes-content` も付けている。拡大を許すなら不要）
 4. アイコンに Lucide を入れる。
-5. アプリの色味を変えたいときは、`tokens.css` の **色相 `248`** をすべて置き換えるのが手早い（例: 緑系なら `150`）。ただしこれは共有ファイルを触ることになるので、アプリ側で全トークンを上書きするか、色相だけ変えたトークンを用意する。
-
-ブラウザ要件: `oklch()` と `color-mix(in oklch, …)`（Chrome 111+ / Safari 16.4+ / Firefox 113+）。
 
 ## カラートークン
 
-### ライト（`:root`）／ダーク（下の値）
+中立色は `oklch(L var(--chroma) var(--hue))`。**L（明度）だけを変える**。
+
+```css
+--hue: 248;      /* 中立色・アクセントの色相 */
+--chroma: 0.015; /* 中立色の彩度 */
+--hue-accent: var(--hue);  --hue-mention: 75;  --hue-danger: 25;  --hue-success: 155;  --hue-warning: 85;
+--chroma-accent / -mention / -danger / -success / -warning   /* 意味色の彩度。ライトとダークで値が違う */
+```
+
+**アプリの色味を変えるときは、`:root` で `--hue`（必要なら `--chroma`・`--hue-*`）を上書きする**。ライト・ダークの両方に効く。
+
+### 中立色（L の値）
 
 | トークン | ライト | ダーク | 用途 |
 | --- | --- | --- | --- |
-| `--bg` | `oklch(0.97 0.015 248)` | `oklch(0.17 0.015 248)` | 画面の地。入力欄の背景にも使う |
-| `--surface` | `oklch(0.94 …)` | `oklch(0.21 …)` | ナビ・メニュー・モーダル・カードなど、一段浮いた面 |
-| `--surface-2` | `oklch(0.9 …)` | `oklch(0.26 …)` | もう一段上。ボタンの地、ホバー・押下 |
-| `--border` | `oklch(0.84 …)` | `oklch(0.32 …)` | 枠・区切り線・スライダーのトラック |
-| `--border-hover` | `oklch(0.76 …)` | `oklch(0.44 …)` | ホバー時の枠（明るい地では濃く、暗い地では明るく） |
-| `--border-focus` | `oklch(0.92 0.012 248)` | `oklch(0.43 …)` | 入力欄フォーカス時の枠 |
-| `--field-focus-bg` | `oklch(0.97 0.012 248)` | `oklch(0.245 …)` | 入力欄フォーカス時の背景 |
-| `--ring` | `oklch(0.45 …)` | `oklch(0.84 …)` | キーボードフォーカスの輪郭（`:focus-visible`） |
-| `--text` | `oklch(0.22 …)` | `oklch(0.93 …)` | 本文 |
-| `--text-muted` | `oklch(0.48 …)` | `oklch(0.7 …)` | 補足・アイコン・非選択 |
-
-（`…` は `0.015 248`）
+| `--bg` | 0.97 | 0.17 | 画面の地。入力欄の背景にも使う |
+| `--surface` | 0.94 | 0.21 | ナビ・メニュー・モーダルなど、一段浮いた面 |
+| `--surface-2` | 0.9 | 0.26 | もう一段上。ボタンの地、ホバー・押下 |
+| `--border` | 0.84 | 0.32 | 枠・区切り線・スライダーのトラック |
+| `--border-hover` | 0.76 | 0.44 | ホバー時の枠 |
+| `--border-focus` | 0.92 | 0.43 | 入力欄フォーカス時の枠 |
+| `--field-focus-bg` | 0.97 | 0.245 | 入力欄フォーカス時の背景 |
+| `--ring` | 0.45 | 0.84 | キーボードフォーカスの輪郭 |
+| `--text` | 0.22 | 0.93 | 本文 |
+| `--text-muted` | 0.48 | 0.7 | 補足・アイコン・非選択 |
 
 ### 意味色
 
-| トークン | ライト | ダーク | 用途 |
+L は **ライト 0.45 / ダーク 0.74**。彩度はライト / ダーク。
+
+| トークン | 色相 | 彩度 | 用途 |
 | --- | --- | --- | --- |
-| `--accent` | `oklch(0.45 0.11 248)` | `oklch(0.74 0.13 248)` | 主ボタン・選択中・リンク・トグル ON |
-| `--mention` | `oklch(0.45 0.09 75)` | `oklch(0.74 0.12 75)` | 自分宛て・検索ヒットの強調 |
-| `--danger` | `oklch(0.45 0.15 25)` | `oklch(0.74 0.15 25)` | 削除・エラー・未読の点 |
-| `--success` | `oklch(0.45 0.1 155)` | `oklch(0.74 0.12 155)` | 成功 |
-| `--warning` | `oklch(0.45 0.09 85)` | `oklch(0.74 0.13 85)` | 注意 |
+| `--accent` | `--hue-accent`（= `--hue`） | 0.11 / 0.13 | 主ボタン・選択中・リンク・トグル ON |
+| `--mention` | 75 | 0.09 / 0.12 | 自分宛て・検索ヒットの強調 |
+| `--danger` | 25 | 0.15 / 0.15 | 削除・エラー・未読の点 |
+| `--success` | 155 | 0.1 / 0.12 | 成功 |
+| `--warning` | 85 | 0.09 / 0.13 | 注意 |
 
-意味色は **ライトでは L=0.45（濃く）、ダークでは L=0.74（明るく）** が決まり。文字色としても背景としても使える明度にしてある。
-
-### 派生（ライト・ダーク共通の式）
+### 派生・その他
 
 ```css
---on-accent:    var(--bg);                                               /* 意味色の地に載せる文字 */
---accent-soft:  color-mix(in oklch, var(--accent)  14%, transparent);   /* 選択・強調の薄い地 */
---mention-soft: color-mix(in oklch, var(--mention) 16%, transparent);
---danger-soft:  color-mix(in oklch, var(--danger)  14%, transparent);
---hover:        color-mix(in oklch, var(--surface-2) 60%, transparent); /* ghost のホバー */
+--on-accent:    var(--bg);                                   /* 意味色の地に載せる文字 */
+--accent-soft:  color-mix(in oklch, var(--accent) 14%, transparent);   /* 選択・強調の薄い地。mention 16%・danger 14% も同様 */
+--hover:        color-mix(in oklch, var(--surface-2) 60%, transparent);
 ```
-
-### その他
 
 | トークン | 値 |
 | --- | --- |
-| `--shadow`（ライト） | `0 8px 28px oklch(0.22 0.015 248 / 0.16), 0 1px 3px oklch(0.22 0.015 248 / 0.1)` |
-| `--shadow`（ダーク） | `0 10px 32px oklch(0.05 0.01 248 / 0.6), 0 1px 3px oklch(0.05 0.01 248 / 0.45)` |
-| `--avatar-l` | ライト `0.45` / ダーク `0.74`（イニシャルアバターの明度） |
-| `--scrim` / `--scrim-strong` | モーダル・ボトムシートの幕 `oklch(0.08 0.01 248 / 0.5)` / 画像ビューアの幕 `oklch(0.1 0.01 248 / 0.92)`（ライト・ダーク共通） |
+| `--shadow` | ポップアップの影（ライト / ダークで別値） |
+| `--shadow-sm` / `--shadow-media` | トグル・スライダーのつまみ / 画像ビューアの画像 |
+| `--scrim` / `--scrim-strong` | モーダルの幕 / 画像ビューアの幕（ライト・ダーク共通） |
 | `--on-scrim` / `--on-scrim-soft` | 幕の上の文字 / ボタンの背景 |
-| `--shadow-sm` | トグル・スライダーのつまみの影 |
-| `--shadow-media` | 画像ビューアの画像の影 |
 | `--mark` | 本文中のハイライト（黄色の半透明） |
+| `--avatar-l` / `--avatar-c` | イニシャルアバターの明度（ライト 0.45 / ダーク 0.74）/ 彩度 0.08 |
+| `--disabled-decoration` | 無効な項目の文字の装飾。既定 `none`。`line-through` にすると取り消し線（`.btn`・入力欄・`.check` に効く） |
 
-### イニシャルアバター
+### アバター（任意）
 
-画像がないユーザーは、ID の文字列から色相をハッシュで決める。
-
-```css
-background: oklch(var(--avatar-l) 0.08 var(--h));   /* --h は 0–360 */
-color: var(--bg);
-font-weight: 700;
-font-size: round(サイズ × 0.42);
-border-radius: 50%;
-```
+`src/avatar.css`（`index.css` には含まない）。`@import '@3pino/design-system/avatar.css'`。
+色相 `--h`（0–360）は ID などから**各アプリが決める**（ハッシュは CSS で書けない）。例:
 
 ```ts
-// ID → 色相（0–359）
-function hueOf(id: string): number {
-  let h = 0;
-  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
-  return h % 360;
-}
+const hueOf = (id: string) => [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 0) % 360;
 ```
 
 ## テーマ切り替え
@@ -164,7 +148,6 @@ function hueOf(id: string): number {
 --mono:  ui-monospace, 'SFMono-Regular', 'Cascadia Code', 'Noto Sans Mono', Menlo, Consolas, monospace;
 ```
 
-`--serif` は まだどのアプリでも使っていない（必要になったとき用）。
 
 | 種別 | トークン |
 | --- | --- |
@@ -207,7 +190,7 @@ function hueOf(id: string): number {
 | 補足・エラー文 | `.field-hint` / `.field-error` | 入力欄の下の 12px。`--text-muted` / `--danger` |
 | チェック・ラジオ | `.checkbox` / `.radio` + `.check`（ラベル） | 18px。ON は `--accent` 地（チェックは `--on-accent`）。`indeterminate`・`aria-invalid`・`disabled` 対応。`<label class="check"><input type="checkbox" class="checkbox">名前</label>` |
 | 小見出し | `.field-label` | 入力欄の上に置く 12px/700 の `--text-muted` |
-| トグル | `.toggle`（`.toggle-on`） | 38×22・角丸 11px。OFF は `--border` 地、ON は `--accent` 地。つまみは 16px の `--bg` 色の丸で、ON で 16px 右へ（`--dur-fast`） |
+| トグル | `.toggle`（`.toggle-on`） | 38×22・角丸 11px。OFF は `--border` 地、ON は `--accent` 地。つまみは 16px の `--bg` 色の丸で、ON で 16px 右へ（`--dur`） |
 | スライダー | `.slider` / `-input` / `-value` | トラック 4px（`--border`）、つまみ 16px の `--accent` 丸。値は 12px・等幅数字・右寄せ |
 | セグメント | `.segmented` / `-option`（`-selected`） | 地 `--surface-2` の枠、内側 4px。選択中の項目は `--bg` 地 + `--text`、他は `--text-muted`。高さ 32px・12px/600 |
 | タブバー | `.nav-bar` / `-item`（`-selected`） | 下タブ: 上線 1px、地 `--surface`、アイコン + 10px ラベルを等分。選択は `--accent`。`.nav-bar-side` で幅 76px の左縦並び（右線 1px） |
@@ -237,23 +220,9 @@ function hueOf(id: string): number {
 - セーフエリア: 上は `.top-bar`（`padding-top: calc(env(safe-area-inset-top) + 8px)`）、下は `max(14px, env(safe-area-inset-bottom))`。`viewport-fit=cover` が前提。
 - 画面の区切りは**面の色差 + 1px の `--border`**。影は使わない。
 
-## チャット固有の見た目
-
-（チャット以外のアプリでは不要。参考）
-
-- カード（`.message-card`。本体のコンポーネント内のスタイル。共有には含めない）: `--surface` 地・枠 1px・`--radius-sm`・padding 8×12。押せるものはホバーで `--border-hover`、使えないものは破線枠。
-- 入力欄（コンポーザー）: 外側 padding `0 16px 14px`。内側は `--surface` 地・枠 1px・角丸 14px・padding 4×6 の横並び（＋ボタン / 入力 / 送信）。
-- 発言: 左右 padding 16px、前の発言との間隔 6px（同じ人の連続は 0）。アバター 36px。
-- 吹き出し: 角丸 16px、padding 7×12。自分は `color-mix(in oklch, var(--accent) 16%, var(--surface))` 地で右寄せ、他人は `--surface` 系。
-- 自分宛て（メンション）: `--mention-soft` 地 + 左に 2px の `--mention` 帯（`inset 2px 0 0`）。
-- 編集中: `--accent-soft` 地。送信中は opacity .6。
-- 返信先へ飛んだとき: `--accent-soft` を 1.8s かけて消える点滅。
-- 検索ヒット: `::highlight(search-hit)` = `--mention-soft` 地 + `--mention` の下線。
-- アプリアイコン: Lucide の `message-circle` を `#5b8fc7`（線のみ・幅 2）で描いたもの（`app/public/icon.svg`）。
-
 ## モーション・アクセシビリティ・タッチ
 
-- 動きは短く控えめ: `--dur-fast` 0.12s（色・トグル）/ `--dur` 0.15s（モーダル）/ `--dur-slow` 0.18s（スライド・トースト）。イージングは `--ease`（`ease-out`）。
+- 動きは `--dur`（0.15s）に統一。イージングは `--ease`（`ease-out`）。
 - `prefers-reduced-motion: reduce` では全アニメーション・トランジションを 0.01ms にする（`base.css` に入っている）。
 - ホバー表現は `@media (hover: hover)` の中だけ（タッチ操作のデバイスで押したあと明るいまま残るのを防ぐ）。`.menu-item`・`.icon-btn` が該当。
 - アイコンだけのボタンには必ず `aria-label`（見える補足は `data-tooltip`）。飾りのアイコンは `aria-hidden`。
@@ -270,5 +239,3 @@ function hueOf(id: string): number {
 - [ ] 角丸は 6 / 10 / 14 px のどれかに合わせた
 - [ ] ホバーは `@media (hover: hover)` に入れた
 - [ ] アイコンだけのボタンに `aria-label` を付けた
-- [ ] 色味を変えるなら色相 `248` を一括置換した
-- [ ] ライト・ダーク両方の見た目を目視で確認した（**見た目の最終確認は人が行う**）

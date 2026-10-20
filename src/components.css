@@ -1,4 +1,4 @@
-/* 共通の部品（ボタン・入力欄・トグル・メニュー・モーダルなど）。トークン（tokens.css）だけに依存する */
+/* 共通の部品。tokens.cssだけに依存する */
 
 /* アイコン（components/ui/Icon.svelte、ui.icon）。並べたときに縮まないようにする */
 .icon {
@@ -84,7 +84,6 @@
 .btn.danger:hover {
   filter: brightness(1.06);
 }
-/* 枠のないボタン。ふだんは背景も枠もなく、ホバー・フォーカス・押している間だけ背景に色を付ける */
 .btn.ghost {
   background: transparent;
   border-color: transparent;
@@ -102,6 +101,7 @@
 .btn:disabled {
   opacity: 0.5;
   cursor: default;
+  text-decoration: var(--disabled-decoration);
 }
 .btn.ghost:disabled {
   background: transparent;
@@ -163,6 +163,7 @@
 .select:disabled {
   opacity: 0.5;
   cursor: default;
+  text-decoration: var(--disabled-decoration);
 }
 .input::placeholder,
 .textarea::placeholder {
@@ -246,6 +247,7 @@
 .check:has(:disabled) {
   opacity: 0.5;
   cursor: default;
+  text-decoration: var(--disabled-decoration);
 }
 
 .muted {
@@ -325,7 +327,7 @@
   border-radius: 11px;
   background: var(--border);
   flex: none;
-  transition: background var(--dur-fast) var(--ease);
+  transition: background var(--dur) var(--ease);
 }
 .toggle .toggle-thumb {
   position: absolute;
@@ -336,7 +338,7 @@
   border-radius: 50%;
   background: var(--bg);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--dur-fast) var(--ease);
+  transition: transform var(--dur) var(--ease);
 }
 .toggle.toggle-on {
   background: var(--accent);
@@ -413,7 +415,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* 横に並んだ選択肢から1つを選ぶボタン（テーマの切り替えなど）。
+/* セグメントボタン。
    <div class="segmented" role="radiogroup"><button class="segmented-option" role="radio">…</button>…</div> */
 .segmented {
   display: flex;
@@ -441,7 +443,7 @@
   color: var(--text);
 }
 
-/* タブのバー（本体の下のナビゲーションなど）。アイコン + ラベルを横に等分に並べる。
+/* ナビバー。
    <nav class="nav-bar"><button class="nav-bar-item"><span class="nav-bar-item-icon">svg + .nav-bar-item-badge</span>
    <span class="nav-bar-item-label">…</span></button>…</nav> */
 .nav-bar {
@@ -770,7 +772,7 @@
   box-shadow: var(--shadow);
   font-size: var(--fs-base);
   pointer-events: auto;
-  animation: toast-drop var(--dur-slow) var(--ease);
+  animation: toast-drop var(--dur) var(--ease);
 }
 .toast.toast-error {
   border-left: 3px solid var(--danger);
@@ -815,7 +817,7 @@
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  transition: opacity var(--dur-fast) var(--ease);
+  transition: opacity var(--dur) var(--ease);
 }
 [data-tooltip][data-tooltip-pos='bottom']::after {
   bottom: auto;
