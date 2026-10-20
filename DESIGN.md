@@ -37,11 +37,11 @@
 1. 依存に入れる（導入方法は `README.md`）。
 2. アプリの CSS の入り口で読み込む。まとめて読むか、個別に読む:
    ```css
-   @import '@3pino/design';            /* = tokens → base → components */
+   @import '@3pino/design-system';            /* = tokens → base → components */
    /* 個別に読むなら */
-   @import '@3pino/design/tokens.css';
-   @import '@3pino/design/base.css';
-   @import '@3pino/design/components.css';
+   @import '@3pino/design-system/tokens.css';
+   @import '@3pino/design-system/base.css';
+   @import '@3pino/design-system/components.css';
    ```
    | ファイル | 中身 |
    | --- | --- |
@@ -52,7 +52,7 @@
    `components.css` は `tokens.css` のトークンだけに依存している（直書きの色はない）。
    **アプリごとの違いは、読み込んだあとにトークンを上書きして出す**（共有の CSS は編集しない）:
    ```css
-   @import '@3pino/design';
+   @import '@3pino/design-system';
    :root { --accent: oklch(0.45 0.11 150); }
    ```
    ダークの値は `:root[data-theme='dark']`（と `@media` 内の `:root:not([data-theme='light'])`）のほうが詳細度が高いので、**色を上書きするときはダーク側も同じセレクタで上書きする**（`color-scheme` ごとに値が違うため）。色以外（文字サイズ・余白・角丸・フォント）は `:root` だけでよい。

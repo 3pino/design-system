@@ -1,4 +1,4 @@
-# @3pino/design
+# @3pino/design-system
 
 3pino のアプリ共通のデザインシステム（純 CSS）。[disnans](https://github.com/3pino/disnans) の見た目をもとにしています。
 
@@ -17,23 +17,23 @@
 
 ```sh
 # GitHub から（CI でもそのまま動く）
-npm install github:3pino/design#v0.1.0
+npm install github:3pino/design-system#v0.1.0
 
 # ローカルで同時に開発するとき（symlink）
-npm install ../design
+npm install ../design-system
 ```
 
 ### 2. 読み込む
 
 ```css
 /* アプリの入り口の CSS */
-@import '@3pino/design';
+@import '@3pino/design-system';
 /* アプリ固有の上書きや追加は、このあとに書く */
 :root { --font: 'Inter', system-ui, sans-serif; }
 ```
 
 Vite・webpack など、`@import` で node_modules を解決できるバンドラーなら、そのまま動きます。
-バンドラーを使わないときは `node_modules/@3pino/design/src/index.css` を `<link>` で読み込みます。
+バンドラーを使わないときは `node_modules/@3pino/design-system/src/index.css` を `<link>` で読み込みます。
 
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />

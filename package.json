@@ -1,5 +1,5 @@
 {
-  "name": "@3pino/design",
+  "name": "@3pino/design-system",
   "version": "0.1.0",
   "description": "3pino のアプリ共通のデザインシステム（CSS トークン・ベース・部品）",
   "license": "UNLICENSED",
