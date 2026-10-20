@@ -18,7 +18,7 @@
 
 ```sh
 # GitHub から。tag指定すべき。
-npm install github:3pino/design-system#v0.3.0
+npm install github:3pino/design-system#v0.4.0
 ```
 
 ### 2. 読み込む
