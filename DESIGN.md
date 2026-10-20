@@ -198,7 +198,7 @@ const hueOf = (id: string) => [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)
 | 未読の点 | `.nav-bar-item-alert` | 9px の `--danger` 丸 + `0 0 0 2px var(--surface)` の縁取り |
 | キー表示 | `.kbd` | 枠 1px（下だけ 2px）・`--surface-2` 地・等幅 12px |
 | 区切り線 | `.divider` | `border-top: 1px solid var(--border)` |
-| 設定セクション | `.setting-section` | 上下 18px。前にセクションがあるときだけ上端に区切り線。見出し 12px/700/`--text-muted`/字間 0.06em。中身は 10px 間隔 |
+| 設定セクション | `.setting-section` | 上下 16px。前にセクションがあるときだけ上端に区切り線。見出し 12px/700/`--text-muted`/字間 0.06em。中身は 10px 間隔 |
 | 設定の行 | `.setting-row` | 左に名前 + 説明、右に操作。14px、間隔 12px。`.setting-row-button` で行全体が ghost ボタン |
 | 状態表示 | `.status-line`（`-muted` `-ok` `-accent` `-warn` `-error`） | アイコン + 14px/600 の 1 行。色は意味色 |
 | メニュー | `.menu` / `.menu-item`（`-danger`） | `--surface` 地・枠 1px・`--radius`・`--shadow`・padding 4px・min-width 200px。項目は padding 8×10・`--radius-sm`・間隔 10px、ホバー/押下で `--surface-2`。`--z-menu`（背後に透明な `.menu-backdrop`） |
