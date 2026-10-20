@@ -138,7 +138,7 @@ const hueOf = (id: string) => [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)
 ## タイポグラフィ・形・影・余白
 
 すべてトークン（`:root`、ライト・ダーク共通）。部品の CSS は直書きの px ではなく、これらを使う。
-スケールに無い値（1px・3px・5px・14px・20px・32px など）だけは例外的に直書きしている。
+直書きは、部品の寸法から決まる値（`.select` の矢印の分の右 padding 32px、スライダーのつまみの margin -6px）と `letter-spacing` だけ。
 
 ```css
 /* フォント。Web フォントは使わない（OS 標準） */
@@ -185,12 +185,12 @@ const hueOf = (id: string) => [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)
 | --- | --- | --- |
 | アイコン | `.icon`（`.icon-sm` 14 / `.icon-md` 16 / `.icon-lg` 20） | `flex: none`（縮まない）。Lucide、線幅 2 固定。大きさは 3 段階だけ使う |
 | アイコンボタン | `.icon-btn`（`.active`） | 34px 角・`--radius-sm`・背景なし・`--text-muted`。ホバーで `--hover` 地 + `--text`。`.active` は `--accent` + `--accent-soft` 地。disabled は opacity .45 |
-| ボタン | `.btn`（`.primary` `.danger` `.ghost` `.btn-icon-only`） | 高さ 36px・横 14px・枠 1px `--border`・地 `--surface-2`・font-weight 500。`.primary` は `--accent` 地 + `--on-accent` 文字、`.danger` は `--danger` 地。ホバーは `brightness(1.06)`（通常ボタンは枠が `--text-muted` に）。`.ghost` は背景も枠もなく、ホバー・フォーカスで `--hover`、押下で `--surface-2`。disabled は opacity .5 |
+| ボタン | `.btn`（`.primary` `.danger` `.ghost` `.btn-icon-only`） | 高さ 36px・横 12px・枠 1px `--border`・地 `--surface-2`・font-weight 500。`.primary` は `--accent` 地 + `--on-accent` 文字、`.danger` は `--danger` 地。ホバーは `brightness(1.06)`（通常ボタンは枠が `--text-muted` に）。`.ghost` は背景も枠もなく、ホバー・フォーカスで `--hover`、押下で `--surface-2`。disabled は opacity .5 |
 | 入力欄 | `.input` / `.textarea` / `.select` | 高さ 40px（textarea は最小 80px・縦にだけ伸びる）・`--bg` 地・枠 `--border`。フォーカスで枠 `--border-focus` + 地 `--field-focus-bg`（青くしない）。エラーは `aria-invalid="true"`（枠が `--danger`）、無効は `disabled`（opacity .5） |
 | 補足・エラー文 | `.field-hint` / `.field-error` | 入力欄の下の 12px。`--text-muted` / `--danger` |
 | チェック・ラジオ | `.checkbox` / `.radio` + `.check`（ラベル） | 18px。ON は `--accent` 地（チェックは `--on-accent`）。`indeterminate`・`aria-invalid`・`disabled` 対応。`<label class="check"><input type="checkbox" class="checkbox">名前</label>` |
 | 小見出し | `.field-label` | 入力欄の上に置く 12px/700 の `--text-muted` |
-| トグル | `.toggle`（`.toggle-on`） | 38×22・角丸 11px。OFF は `--border` 地、ON は `--accent` 地。つまみは 16px の `--bg` 色の丸で、ON で 16px 右へ（`--dur`） |
+| トグル | `.toggle`（`.toggle-on`） | 38×22・丸（`--radius-pill`）。OFF は `--border` 地、ON は `--accent` 地。つまみは 16px の `--bg` 色の丸で、ON で 16px 右へ（`--dur`） |
 | スライダー | `.slider` / `-input` / `-value` | トラック 4px（`--border`）、つまみ 16px の `--accent` 丸。値は 12px・等幅数字・右寄せ |
 | セグメント | `.segmented` / `-option`（`-selected`） | 地 `--surface-2` の枠、内側 4px。選択中の項目は `--bg` 地 + `--text`、他は `--text-muted`。高さ 32px・12px/600 |
 | タブバー | `.nav-bar` / `-item`（`-selected`） | 下タブ: 上線 1px、地 `--surface`、アイコン + 10px ラベルを等分。選択は `--accent`。`.nav-bar-side` で幅 76px の左縦並び（右線 1px） |
@@ -203,7 +203,7 @@ const hueOf = (id: string) => [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)
 | 状態表示 | `.status-line`（`-muted` `-ok` `-accent` `-warn` `-error`） | アイコン + 14px/600 の 1 行。色は意味色 |
 | メニュー | `.menu` / `.menu-item`（`-danger`） | `--surface` 地・枠 1px・`--radius`・`--shadow`・padding 4px・min-width 200px。項目は padding 8×10・`--radius-sm`・間隔 10px、ホバー/押下で `--surface-2`。`--z-menu`（背後に透明な `.menu-backdrop`） |
 | 補完候補 | `.suggest-list` / `-item`（`-selected`） | メニューと同じ面。選択中は `--accent-soft` 地。タイトル 600、詳細は 12px `--text-muted` で省略表示 |
-| モーダル | `.modal-scrim` / `.modal` | 幕は `--scrim`。本体は幅 `min(420px, 100vw-32px)`・padding 20px・角丸 14px・`--surface`・枠 1px・`--shadow`・中央配置。出現はフェード + わずかなせり上がり（`--dur`）。ボタンは右寄せ・間隔 8px（`.modal-actions`） |
+| モーダル | `.modal-scrim` / `.modal` | 幕は `--scrim`。本体は幅 `min(420px, 100vw-32px)`・padding 16px・角丸 14px・`--surface`・枠 1px・`--shadow`・中央配置。出現はフェード + わずかなせり上がり（`--dur`）。ボタンは右寄せ・間隔 8px（`.modal-actions`） |
 | トースト | `.toasts` > `.toast`（`-error` `-text` `-action`） | 画面上部中央（幅 min(440px, 100vw-24px)）、`--surface`・枠・`--shadow`・14px。エラーは左に 3px の `--danger` 帯だけ |
 | ツールチップ | `[data-tooltip]`（`data-tooltip-pos="bottom"`） | アイコンだけのボタンの補足。ホバー（0.4s 後）かキーボードフォーカスで出る。読み上げは `aria-label`。親の `overflow` で切れるので端は下向きに |
 | スクロール領域 | `.scroll` | `overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent` |
@@ -236,6 +236,6 @@ const hueOf = (id: string) => [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)
 - [ ] ダークのトークンを `@media` 内と `[data-theme='dark']` の両方で更新した
 - [ ] 色は必ずトークンから使っている（直書きの色がない）
 - [ ] 新しい部品も `.part` / `.part-child` / `.part-state` の命名にした
-- [ ] 角丸は 6 / 10 / 14 px のどれかに合わせた
+- [ ] 角丸は `--radius-*` のどれかに合わせた
 - [ ] ホバーは `@media (hover: hover)` に入れた
 - [ ] アイコンだけのボタンに `aria-label` を付けた
